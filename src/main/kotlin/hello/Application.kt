@@ -1,10 +1,13 @@
 package hello
 
+import io.micrometer.core.instrument.MeterRegistry
+import io.micrometer.core.instrument.Metrics
 import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
+import org.springframework.core.env.Environment
 
 @SpringBootApplication
 class Application {
@@ -12,7 +15,7 @@ class Application {
 	private val log = LoggerFactory.getLogger(Application::class.java)
 
 	@Bean
-	fun init(repository: CustomerRepository) = CommandLineRunner {
+	fun init(repository: CustomerRepository, registry: MeterRegistry) = CommandLineRunner {
 			// save a couple of customers
 			repository.save(Customer("Jack", "Bauer"))
 			repository.save(Customer("Chloe", "O'Brian"))
@@ -40,6 +43,8 @@ class Application {
 			log.info("--------------------------------------------")
 			repository.findByLastName("Bauer").forEach { log.info(it.toString()) }
 			log.info("")
+			log.info(System.getProperty("spring.metrics.port"))
+			Metrics.counter("bootstrap").increment()
 	}
 
 }

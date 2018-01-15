@@ -43,11 +43,13 @@ repositories {
 
 dependencies {
 	compile("org.springframework.boot:spring-boot-starter-web")
+	compile("org.springframework.boot:spring-boot-starter-actuator")
 	compile("org.springframework.boot:spring-boot-starter-data-jpa")
-	compile("com.h2database:h2")
 	compile("org.jetbrains.kotlin:kotlin-stdlib")
 	compile("org.jetbrains.kotlin:kotlin-reflect")
+	compile ("io.micrometer:micrometer-registry-statsd")
 	compile("com.fasterxml.jackson.module:jackson-module-kotlin")
+	compile("com.h2database:h2")
 	testCompile("org.springframework.boot:spring-boot-starter-test") {
 		exclude(module = "junit")
 	}
